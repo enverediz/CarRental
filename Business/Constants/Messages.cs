@@ -10,7 +10,7 @@ namespace Business.Constants
         public static string CarAdded = "Araba eklendi.";
         public static string CarDeleted = "Araba silindi.";
         public static string CarUpdated = "Araba guncellendi.";
-        public static string CarInvalid = "Araba ismi veya fiyati gecersiz";
+        public static string CarNameInvalid = "Araba ismi gecersiz.";
         public static string MaintenanceTime = "Sistem suan bakimda.";
         public static string CarsListed = "Arabalar listelendi.";
         public static string CarNotDelivered = "Arac henuz teslim edilmedi.";
@@ -32,5 +32,6 @@ namespace Business.Constants
         public static string RentalUpdated = "Kiralama islemi guncellendi.";
         public static string UserDeleted = "Kullanici silindi.";
         public static string UserUpdated = "Kullanici guncellendi.";
+        public static string DailyPriceInvalid = "Gunluk fiyat gecersiz.";
     }
 }
