@@ -17,7 +17,7 @@ namespace Business.Abstract
         IDataResult<List<CarDetailDto>> GetCarDetails();
         IResult Delete(Car car);
         IResult Update(Car car);
-        IResult Insert(Car car);
+        IResult Add(Car car);
 
     }
 }

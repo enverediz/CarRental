@@ -28,7 +28,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetAll()
         {
-            if (DateTime.Now.Hour == 0)
+            if (DateTime.Now.Hour == 13)
             {
                 return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
             }
@@ -60,7 +60,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
         }
 
-        public IResult Insert(Car car)
+        public IResult Add(Car car)
         {
             if (car.CarName.Length < 2  )
             {

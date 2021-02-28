@@ -23,6 +23,16 @@ namespace Business.Concrete
             _carImageDal.Add(carImage);
             return new SuccessResult();
         }
+        public IResult Delete(CarImage carImage)
+        {
+            _carImageDal.Delete(carImage);
+            return new SuccessResult(Messages.CarImageDeleted);
+        }
+        public IResult Update(CarImage carImage)
+        {
+            _carImageDal.Update(carImage);
+            return new SuccessResult(Messages.CarImageUpdated);
+        }
 
         public IDataResult<List<CarImage>> GetAll()
         {
