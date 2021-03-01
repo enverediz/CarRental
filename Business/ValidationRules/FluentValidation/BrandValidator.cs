@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class RentalValidator: AbstractValidator<Rental>
+    public class BrandValidator: AbstractValidator<Brand>
     {
-        public RentalValidator()
+        public BrandValidator()
         {
-            RuleFor(r => r.ReturnDate).NotNull().WithMessage(ValidatorMessages.CanNotDelivered);
+            RuleFor(b => b.BrandName).NotEmpty().WithMessage(ValidatorMessages.CanNotBlank);
         }
     }
 }
