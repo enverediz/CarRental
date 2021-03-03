@@ -11,6 +11,9 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Core.Utilities.Helpers;
 
 namespace Business.Concrete
 {
@@ -26,26 +29,40 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarImageValidator))]
-        public IResult Add(CarImage carImage)
+        public IResult Add(IFormFile file, CarImage carImage)
         {
-            IResult result = BusinessRules.Run(CheckIfImageCountOfCarImageCorrect(carImage.CarImageId));
+            IResult result = BusinessRules.Run(CheckCarImageLimit(carImage.CarImageId));
             if (result!=null)
             {
                 return result;
             }
+
+            carImage.ImagePath = FileHelper.AddAsync(file);
+            carImage.Date = DateTime.Now;
+
             _carImageDal.Add(carImage);
             return new SuccessResult();            
 
         }
         public IResult Delete(CarImage carImage)
         {
+            var oldpath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\wwwroot")) 
+                + _carImageDal.Get(i => i.CarImageId == carImage.CarImageId).ImagePath;
+            var result = BusinessRules.Run(FileHelper.DeleteAsync(oldpath));
+
             _carImageDal.Delete(carImage);
             return new SuccessResult(Messages.CarImageDeleted);
         }
-        public IResult Update(CarImage carImage)
+        public IResult Update(IFormFile file, CarImage carImage)
         {
-            if (CheckIfImageCountOfCarImageCorrect(carImage.CarImageId).Success)
+            if (CheckCarImageLimit(carImage.CarImageId).Success)
             {
+                var oldpath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\wwwroot"))
+                + _carImageDal.Get(i => i.CarImageId == carImage.CarImageId).ImagePath;
+
+                carImage.ImagePath = FileHelper.UpdateAsync(oldpath, file);
+                carImage.Date = DateTime.Now;
+
                 _carImageDal.Update(carImage);
                 return new SuccessResult(Messages.CarImageUpdated);
             }
@@ -67,7 +84,7 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarImageId == carImageId));
         }        
 
-        private IResult CheckIfImageCountOfCarImageCorrect(int carImageId)
+        private IResult CheckCarImageLimit(int carImageId)
         {
             var result = _carImageDal.GetAll(c => c.CarImageId == carImageId).Count;
             if (result > 5)

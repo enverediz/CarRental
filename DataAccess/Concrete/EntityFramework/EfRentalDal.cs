@@ -25,7 +25,7 @@ namespace DataAccess.Concrete.EntityFramework
                              select new RentalDetailDto
                              {
                                  FirstName = u.FirstName, LastName = u.LastName, CompanyName= c.CompanyName, Email = u.Email,
-                                 RentDate = r.RentDate, ReturnDate = r.ReturnDate
+                                 RentDate = r.RentDate, ReturnDate = (DateTime)r.ReturnDate
                              };
                 return result.ToList();
             }

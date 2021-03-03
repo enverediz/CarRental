@@ -10,7 +10,7 @@ namespace Business.ValidationRules.FluentValidation
     {
         public CarImageValidator()
         {
-            //RuleFor(c => c.Date).Equals(DateTime.Now);
+            RuleFor(c => c.CarImageId).NotEmpty();
         }
     }
 }

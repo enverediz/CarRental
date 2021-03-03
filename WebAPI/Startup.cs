@@ -62,12 +62,12 @@ namespace WebAPI
 
             app.UseAuthorization();
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-            Path.Combine(env.ContentRootPath, "MyStaticFiles")),
-                RequestPath = "/StaticFiles"
-            }); //
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //Path.Combine(env.ContentRootPath, "MyStaticFiles")),
+            //    RequestPath = "/StaticFiles"
+            //}); //
 
             app.UseEndpoints(endpoints =>
             {
