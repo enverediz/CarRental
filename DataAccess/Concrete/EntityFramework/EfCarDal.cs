@@ -31,5 +31,26 @@ namespace DataAccess.Concrete.EntityFramework
                 return result.ToList();
             }
         }
+
+        public List<CarImageDetailDto> GetCarImageDetails()
+        {
+            using (CarRentalContext context = new CarRentalContext())
+            {
+                var result = from ci in context.CarImages
+                             join c in context.Cars
+                             on ci.CarId equals c.CarId
+
+                             select new CarImageDetailDto
+                             {
+                                 //CarId = c.CarId,
+                                 CarName = c.CarName,
+                                 ImagePath = ci.ImagePath,
+                                 //CarImageId = ci.CarImageId
+                             };
+
+                return result.ToList();
+            }
+        }
+
     }
 }

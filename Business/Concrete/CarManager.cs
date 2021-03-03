@@ -1,10 +1,12 @@
 ﻿using Business.Abstract;
+using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -18,10 +20,16 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
         ICarDal _carDal;
+        ICarImageService _carImageService;
 
-        public CarManager(ICarDal carDal)
+        public CarManager(ICarDal carDal, ICarImageService carImageService)
         {
             _carDal = carDal;
+            _carImageService = carImageService;
+        }
+
+        public CarManager(EfCarDal efCarDal)
+        {
         }
 
         public IResult Delete(Car car)
@@ -63,12 +71,25 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
         }
+        public IDataResult<List<CarImageDetailDto>> GetCarImageDetails(int carId)
+        {
+            var result = _carImageService.GetAll().Data;
+            if (result != null)
+            {
+                return new SuccessDataResult<List<CarImageDetailDto>>(_carDal.GetCarImageDetails());
+                
+            }
+            return null; // buraya firma logosu resmi gelecek ona göre kodlarsın.
+
+
+        }
 
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
-        {            
-            _carDal.Add(car);
-            return new SuccessResult(Messages.CarAdded);
+        {
+             _carDal.Add(car);
+             return new SuccessResult(Messages.CarAdded);
+                        
         }
 
         public IResult Update(Car car)
@@ -76,5 +97,7 @@ namespace Business.Concrete
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
+
+        
     }
 }

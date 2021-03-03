@@ -33,5 +33,6 @@ namespace Business.Constants
         public static string UserDeleted = "Kullanici silindi.";
         public static string UserUpdated = "Kullanici guncellendi.";
         public static string DailyPriceInvalid = "Gunluk fiyat gecersiz.";
+        public static string ImageCountOfCarImageError = "Bir arabanın en fazla 5 resmi olabilir.";
     }
 }
