@@ -19,13 +19,11 @@ namespace Business.Concrete
 {
     public class CarImageManager : ICarImageService
     {
-        ICarImageDal _carImageDal;
-        ICarService _carService;
+        ICarImageDal _carImageDal;       
 
-        public CarImageManager(ICarImageDal carImageDal, ICarService carService)
+        public CarImageManager(ICarImageDal carImageDal)
         {
-            _carImageDal = carImageDal;
-            _carService = carService;
+            _carImageDal = carImageDal;            
         }
 
         [ValidationAspect(typeof(CarImageValidator))]
