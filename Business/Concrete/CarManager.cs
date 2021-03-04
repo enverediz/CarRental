@@ -77,7 +77,7 @@ namespace Business.Concrete
             if (result != null)
             {
                 return new SuccessDataResult<List<CarImageDetailDto>>(_carDal.GetCarImageDetails());
-                
+
             }
             return null; // buraya firma logosu resmi gelecek ona göre kodlarsın.
 
