@@ -23,7 +23,7 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        [SecuredOperation("user.add,admin")]
+        //[SecuredOperation("user.add,admin")]
         [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User user)
         {
@@ -62,7 +62,12 @@ namespace Business.Concrete
 
         public IDataResult<User> GetByMail(string email)
         {
-            return new SuccessDataResult<User>(_userDal.Get(u => u.Email == email));
+            var result = _userDal.Get(u => u.Email == email);
+            if (result == null)
+            {
+                return new SuccessDataResult<User>(result);
+            }
+            return new ErrorDataResult<User>(Messages.UserAlreadyExists);
         }
     }
 }
