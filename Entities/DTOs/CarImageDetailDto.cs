@@ -6,9 +6,7 @@ using System.Text;
 namespace Entities.DTOs
 {
     public class CarImageDetailDto : IDto
-    {
-        public int CarId { get; set; }
-        public int CarImageId { get; set; }
+    {        
         public string CarName { get; set; }
         public string ImagePath { get; set; }
 

@@ -16,9 +16,9 @@ namespace DataAccess.Concrete.InMemory
         {
             _cars = new List<Car> 
             {
-                new Car{CarId=1,BrandId=1,ColorId=1,ModelYear=2023,DailyPrice=100000,Description="TOGG SUV" },
-                new Car{CarId=2,BrandId=1,ColorId=2,ModelYear=2023,DailyPrice=150000,Description="TOGG SEDAN" },
-                new Car{CarId=3,BrandId=2,ColorId=3,ModelYear=2023,DailyPrice=175000,Description="TOGG COUPE" }
+                new Car{Id=1,BrandId=1,ColorId=1,ModelYear=2023,DailyPrice=100000,Description="TOGG SUV" },
+                new Car{Id=2,BrandId=1,ColorId=2,ModelYear=2023,DailyPrice=150000,Description="TOGG SEDAN" },
+                new Car{Id=3,BrandId=2,ColorId=3,ModelYear=2023,DailyPrice=175000,Description="TOGG COUPE" }
             };
         }
         public void Add(Car car)
@@ -28,7 +28,7 @@ namespace DataAccess.Concrete.InMemory
 
         public void Delete(Car car)
         {
-            Car carToDelete = _cars.SingleOrDefault(c=>c.CarId == car.CarId);
+            Car carToDelete = _cars.SingleOrDefault(c=>c.Id == car.Id);
             _cars.Remove(carToDelete);
         }
 
@@ -74,7 +74,7 @@ namespace DataAccess.Concrete.InMemory
 
         public void Update(Car car)
         {
-            Car carToUpdate = _cars.SingleOrDefault(c => c.CarId == car.CarId);
+            Car carToUpdate = _cars.SingleOrDefault(c => c.Id == car.Id);
             carToUpdate.ModelYear = car.ModelYear;
             carToUpdate.BrandId = car.BrandId;
             carToUpdate.ColorId = car.ColorId;

@@ -1,4 +1,5 @@
 ﻿using Business.Constants;
+using Core.Entities.Concrete;
 using Entities.Concrete;
 using FluentValidation;
 using System;
@@ -19,8 +20,8 @@ namespace Business.ValidationRules.FluentValidation
 
             RuleFor(u => u.Email).NotEmpty().WithMessage(ValidatorMessages.CanNotBlank);
 
-            RuleFor(u => u.Password).NotEmpty().WithMessage(ValidatorMessages.CanNotBlank);
-            RuleFor(u => u.Password).MinimumLength(8).WithMessage(ValidatorMessages.PasswordInvalid);
+            //RuleFor(u => u.Password).NotEmpty().WithMessage(ValidatorMessages.CanNotBlank);
+            //RuleFor(u => u.Password).MinimumLength(8).WithMessage(ValidatorMessages.PasswordInvalid);
         }
     }
 }

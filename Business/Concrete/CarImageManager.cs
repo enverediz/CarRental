@@ -14,6 +14,7 @@ using System.Text;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Core.Utilities.Helpers;
+using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -26,10 +27,11 @@ namespace Business.Concrete
             _carImageDal = carImageDal;            
         }
 
+        [SecuredOperation("carimage.add,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(IFormFile file, CarImage carImage)
         {
-            IResult result = BusinessRules.Run(CheckCarImageLimit(carImage.CarImageId));
+            IResult result = BusinessRules.Run(CheckCarImageLimit(carImage.Id));
             if (result!=null)
             {
                 return result;
@@ -45,7 +47,7 @@ namespace Business.Concrete
         public IResult Delete(CarImage carImage)
         {
             var oldpath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\wwwroot")) 
-                + _carImageDal.Get(i => i.CarImageId == carImage.CarImageId).ImagePath;
+                + _carImageDal.Get(i => i.Id == carImage.Id).ImagePath;
             var result = BusinessRules.Run(FileHelper.DeleteAsync(oldpath));
 
             _carImageDal.Delete(carImage);
@@ -53,10 +55,10 @@ namespace Business.Concrete
         }
         public IResult Update(IFormFile file, CarImage carImage)
         {
-            if (CheckCarImageLimit(carImage.CarImageId).Success)
+            if (CheckCarImageLimit(carImage.Id).Success)
             {
                 var oldpath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\wwwroot"))
-                + _carImageDal.Get(i => i.CarImageId == carImage.CarImageId).ImagePath;
+                + _carImageDal.Get(i => i.Id == carImage.Id).ImagePath;
 
                 carImage.ImagePath = FileHelper.UpdateAsync(oldpath, file);
                 carImage.Date = DateTime.Now;
@@ -79,12 +81,12 @@ namespace Business.Concrete
 
         public IDataResult<CarImage> GetById(int carImageId)
         {
-            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarImageId == carImageId));
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == carImageId));
         }        
 
         private IResult CheckCarImageLimit(int carImageId)
         {
-            var result = _carImageDal.GetAll(c => c.CarImageId == carImageId).Count;
+            var result = _carImageDal.GetAll(c => c.Id == carImageId).Count;
             if (result > 5)
             {
                 return new ErrorResult(Messages.ImageCountOfCarImageError);
