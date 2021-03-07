@@ -15,5 +15,6 @@ namespace Business.Abstract
         IResult Delete(Rental rental);
         IResult Update(Rental rental);
         IResult Add(Rental rental);
+        IResult AddTransactionalTest(Rental rental);
     }
 }

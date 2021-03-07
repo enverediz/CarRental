@@ -15,6 +15,7 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using Core.Utilities.Helpers;
 using Business.BusinessAspects.Autofac;
+using Core.Aspects.Autofac.Caching;
 
 namespace Business.Concrete
 {
@@ -29,6 +30,7 @@ namespace Business.Concrete
 
         [SecuredOperation("carimage.add,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
+        [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Add(IFormFile file, CarImage carImage)
         {
             IResult result = BusinessRules.Run(CheckCarImageLimit(carImage.Id));
@@ -44,6 +46,8 @@ namespace Business.Concrete
             return new SuccessResult();            
 
         }
+
+        [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Delete(CarImage carImage)
         {
             var oldpath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\wwwroot")) 
@@ -53,6 +57,8 @@ namespace Business.Concrete
             _carImageDal.Delete(carImage);
             return new SuccessResult(Messages.CarImageDeleted);
         }
+
+        [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Update(IFormFile file, CarImage carImage)
         {
             if (CheckCarImageLimit(carImage.Id).Success)
@@ -70,6 +76,7 @@ namespace Business.Concrete
 
         }
 
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetAll()
         {
             if (DateTime.Now.Hour == 0)
@@ -79,6 +86,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(), Messages.CarImagesListed);
         }
 
+        [CacheAspect]
         public IDataResult<CarImage> GetById(int carImageId)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == carImageId));
