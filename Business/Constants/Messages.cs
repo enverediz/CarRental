@@ -43,5 +43,14 @@ namespace Business.Constants
         public static string SuccessfulLogin = "Giris basarili.";
         public static string UserAlreadyExists = "Bu isimde bir kullanici mevcut!";
         public static string AccessTokenCreated = "Token olusturuldu.";
+        public static string AddressesListed = "Adresler listelendi.";
+        public static string PaymentsListed = "Odemeler listelendi.";
+        public static string InvoicessListed = "Faturalar listelendi.";
+        public static string AddressUpdated = "Adres guncellendi.";
+        public static string PaymentUpdated = "Odeme guncellendi.";
+        public static string InvoiceUpdated = "Fatura guncellendi.";
+        public static string AddressDeleted = "Adres silindi!";
+        public static string PaymentDeleted = "Odeme silindi!";
+        public static string InvoiceDeleted = "Fatura silindi!";
     }
 }
