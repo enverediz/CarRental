@@ -43,6 +43,15 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 
+            builder.RegisterType<AddressManager>().As<IAddressService>();
+            builder.RegisterType<EfAddressDal>().As<IAddressDal>();
+
+            builder.RegisterType<InvoiceManager>().As<IInvoiceService>();
+            builder.RegisterType<EfInvoiceDal>().As<IInvoiceDal>();
+
+            builder.RegisterType<PaymentManager>().As<IPaymentService>();
+            builder.RegisterType<EfPaymentDal>().As<IPaymentDal>();
+
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
